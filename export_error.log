@@ -1,0 +1,48 @@
+/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/utils/errors.js:130
+    throw error;
+    ^
+
+Error: Cannot find module 'metro-resolver'
+Require stack:
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/metro-core/src/errors/PackageResolutionError.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/metro-core/src/index.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/@expo/metro/node_modules/metro/src/lib/TerminalReporter.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/@expo/metro/metro/lib/TerminalReporter.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/TerminalReporter.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/MetroTerminalReporter.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/instantiateMetro.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/MetroBundlerDevServer.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/exportApp.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/exportAsync.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/index.js
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/bin/cli
+- /Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/bin/cli
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/metro-core/src/errors/PackageResolutionError.js:7:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/metro-core/src/errors/PackageResolutionError.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/metro-core/src/index.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/@expo/metro/node_modules/metro/src/lib/TerminalReporter.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/@expo/metro/metro/lib/TerminalReporter.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/TerminalReporter.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/MetroTerminalReporter.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/instantiateMetro.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/start/server/metro/MetroBundlerDevServer.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/exportApp.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/exportAsync.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/src/export/index.js',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/node_modules/@expo/cli/build/bin/cli',
+    '/Volumes/MHMM/GET A WHIFF/getawhiff/node_modules/expo/bin/cli'
+  ]
+}
+
+Node.js v22.16.0
