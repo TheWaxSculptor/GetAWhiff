@@ -8,6 +8,7 @@ import { fetchStrains, StrainInfo, StrainType } from '../api/strainApi';
 import { AdBanner } from '../components/AdBanner';
 import { getFavorites, isFavorite, addFavorite, removeFavorite } from '../api/favoritesStorage';
 import { NotebookHeader } from '../components/NotebookHeader';
+import { PageFlipContainer } from '../components/PageFlipContainer';
 
 type RootStackParamList = {
   StrainDetail: { strainId: string };
@@ -110,7 +111,7 @@ export default function StrainsTabScreen() {
 
   return (
     <View style={styles.container}>
-      <NotebookHeader title="Strain Database" />
+      <NotebookHeader title="The Bud Bible" />
       <View style={styles.header}>
         <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginBottom: Spacing.md }}>
           <TouchableOpacity onPress={() => navigation.navigate('PPFDMeter' as any)} style={{ padding: 4, backgroundColor: Colors.stickyGreen, borderRadius: 12, borderWidth: 1, borderColor: Colors.ink }}>
@@ -150,24 +151,26 @@ export default function StrainsTabScreen() {
         </View>
       </View>
 
-      {loading ? (
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color={Colors.primary} />
-        </View>
-      ) : strains.length > 0 ? (
-        <FlatList
-          data={strains}
-          keyExtractor={item => item.id}
-          renderItem={renderItem}
-          contentContainerStyle={styles.list}
-          keyboardShouldPersistTaps="handled"
-        />
-      ) : (
-        <View style={styles.centerContainer}>
-          <Ionicons name="leaf-outline" size={64} color={Colors.surface} />
-          <Text style={styles.emptyText}>No strains found</Text>
-        </View>
-      )}
+      <PageFlipContainer trigger={selectedType}>
+        {loading ? (
+          <View style={styles.centerContainer}>
+            <ActivityIndicator size="large" color={Colors.primary} />
+          </View>
+        ) : strains.length > 0 ? (
+          <FlatList
+            data={strains}
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+            contentContainerStyle={styles.list}
+            keyboardShouldPersistTaps="handled"
+          />
+        ) : (
+          <View style={styles.centerContainer}>
+            <Ionicons name="leaf-outline" size={64} color={Colors.surface} />
+            <Text style={styles.emptyText}>No strains found</Text>
+          </View>
+        )}
+      </PageFlipContainer>
 
       <AdBanner />
     </View>

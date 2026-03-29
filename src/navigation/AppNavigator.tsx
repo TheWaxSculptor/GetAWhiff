@@ -70,7 +70,7 @@ function TabNavigator() {
     >
       <Tab.Screen name="ScanTab" component={ScanScreen} options={{ title: 'Scan' }} />
       <Tab.Screen name="SearchTab" component={SearchScreen} options={{ title: 'Search' }} />
-      <Tab.Screen name="StrainsTab" component={StrainsTabScreen} options={{ title: 'Strains' }} />
+      <Tab.Screen name="StrainsTab" component={StrainsTabScreen} options={{ title: 'Bud Bible' }} />
       <Tab.Screen name="ConsultantTab" component={ConsultantScreen} options={{ title: 'Consult' }} />
       <Tab.Screen name="HistoryTab" component={HistoryScreen} options={{ title: 'History' }} />
     </Tab.Navigator>

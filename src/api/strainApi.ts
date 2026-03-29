@@ -128,7 +128,7 @@ async function searchStrainsWithLlama(query: string): Promise<StrainInfo[]> {
         messages: [
           {
             role: 'system',
-            content: `You are the world's most comprehensive cannabis database, far exceeding the depth of Leafly. 
+            content: `You are 'The Bud Bible', the world's most comprehensive cannabis database, far exceeding the depth of Leafly. 
             When given a search query, symptom, or benefit, you return a JSON array of up to 8 of the most relevant cannabis strains.
             Return ONLY a raw JSON array matching this TypeScript interface exactly:
             interface StrainInfo {
