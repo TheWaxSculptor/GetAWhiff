@@ -37,8 +37,7 @@
           "cameraPermission": "Get A Whiff needs camera access to scan product barcodes."
         }
       ],
-      "expo-font",
-      "react-native-reanimated"
+      "expo-font"
     ],
     "scheme": "getawhiff"
   }
