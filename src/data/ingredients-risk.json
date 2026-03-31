@@ -1,81 +1,381 @@
 {
   "additives": {
-    "e102": { "name": "Tartrazine (E102)", "risk": "avoid", "concern": "Linked to hyperactivity in children; banned in some countries." },
-    "e110": { "name": "Sunset Yellow (E110)", "risk": "avoid", "concern": "May cause hyperactivity; allergic reactions in some people." },
-    "e120": { "name": "Cochineal / Carmine (E120)", "risk": "caution", "concern": "Derived from insects; can trigger allergic reactions." },
-    "e122": { "name": "Azorubine (E122)", "risk": "avoid", "concern": "Linked to hyperactivity; banned in several countries." },
-    "e123": { "name": "Amaranth (E123)", "risk": "avoid", "concern": "Banned in the USA; suspected carcinogen." },
-    "e124": { "name": "Ponceau 4R (E124)", "risk": "avoid", "concern": "Linked to hyperactivity; banned in USA and Norway." },
-    "e127": { "name": "Erythrosine (E127)", "risk": "caution", "concern": "High iodine content; may affect thyroid function." },
-    "e129": { "name": "Allura Red (E129)", "risk": "caution", "concern": "Linked to hyperactivity in sensitive children." },
-    "e150d": { "name": "Caramel IV (E150d)", "risk": "caution", "concern": "Contains 4-MEI, a potential carcinogen." },
-    "e151": { "name": "Brilliant Black (E151)", "risk": "caution", "concern": "Linked to hyperactivity; banned in some countries." },
-    "e155": { "name": "Brown HT (E155)", "risk": "avoid", "concern": "Banned in several countries due to toxicity concerns." },
-    "e171": { "name": "Titanium Dioxide (E171)", "risk": "avoid", "concern": "Classified as possibly carcinogenic (IARC Group 2B); banned in EU food." },
-    "e172": { "name": "Iron Oxides (E172)", "risk": "safe", "concern": null },
-    "e200": { "name": "Sorbic Acid (E200)", "risk": "safe", "concern": null },
-    "e202": { "name": "Potassium Sorbate (E202)", "risk": "safe", "concern": null },
-    "e210": { "name": "Benzoic Acid (E210)", "risk": "caution", "concern": "May cause hyperactivity when combined with certain dyes." },
-    "e211": { "name": "Sodium Benzoate (E211)", "risk": "caution", "concern": "Can form benzene (carcinogen) when combined with vitamin C." },
-    "e220": { "name": "Sulphur Dioxide (E220)", "risk": "caution", "concern": "Can trigger asthma in sensitive individuals." },
-    "e249": { "name": "Potassium Nitrite (E249)", "risk": "caution", "concern": "May form nitrosamines (carcinogens) during digestion." },
-    "e250": { "name": "Sodium Nitrite (E250)", "risk": "avoid", "concern": "Linked to colorectal cancer; forms carcinogenic nitrosamines." },
-    "e251": { "name": "Sodium Nitrate (E251)", "risk": "caution", "concern": "Can convert to nitrite in the body; potential cancer risk." },
-    "e320": { "name": "BHA (E320)", "risk": "avoid", "concern": "Possible human carcinogen (IARC Group 2B)." },
-    "e321": { "name": "BHT (E321)", "risk": "caution", "concern": "Endocrine disruption concerns; restricted in some countries." },
-    "e330": { "name": "Citric Acid (E330)", "risk": "safe", "concern": null },
-    "e415": { "name": "Xanthan Gum (E415)", "risk": "safe", "concern": null },
-    "e421": { "name": "Mannitol (E421)", "risk": "caution", "concern": "May cause digestive discomfort in large amounts." },
-    "e422": { "name": "Glycerol (E422)", "risk": "safe", "concern": null },
-    "e450": { "name": "Diphosphates (E450)", "risk": "caution", "concern": "High phosphate intake may harm kidneys and bones." },
-    "e621": { "name": "MSG (E621)", "risk": "caution", "concern": "May cause symptoms in sensitive individuals (MSG sensitivity)." },
-    "e951": { "name": "Aspartame (E951)", "risk": "caution", "concern": "Possible carcinogen per WHO; debated; avoid if phenylketonuric." },
-    "e952": { "name": "Cyclamate (E952)", "risk": "avoid", "concern": "Banned in USA; possible carcinogen." },
-    "e954": { "name": "Saccharin (E954)", "risk": "caution", "concern": "Formerly listed as possible carcinogen; delisted but debated." },
-    "e955": { "name": "Sucralose (E955)", "risk": "caution", "concern": "May alter gut microbiome; some studies show DNA damage at high doses." },
-    "e960": { "name": "Steviol Glycosides (E960)", "risk": "safe", "concern": null }
+    "e102": {
+      "name": "Tartrazine (E102)",
+      "risk": "avoid",
+      "concern": "Linked to hyperactivity in children; banned in some countries."
+    },
+    "e110": {
+      "name": "Sunset Yellow (E110)",
+      "risk": "avoid",
+      "concern": "May cause hyperactivity; allergic reactions in some people."
+    },
+    "e120": {
+      "name": "Cochineal / Carmine (E120)",
+      "risk": "caution",
+      "concern": "Derived from insects; can trigger allergic reactions."
+    },
+    "e122": {
+      "name": "Azorubine (E122)",
+      "risk": "avoid",
+      "concern": "Linked to hyperactivity; banned in several countries."
+    },
+    "e123": {
+      "name": "Amaranth (E123)",
+      "risk": "avoid",
+      "concern": "Banned in the USA; suspected carcinogen."
+    },
+    "e124": {
+      "name": "Ponceau 4R (E124)",
+      "risk": "avoid",
+      "concern": "Linked to hyperactivity; banned in USA and Norway."
+    },
+    "e127": {
+      "name": "Erythrosine (E127)",
+      "risk": "caution",
+      "concern": "High iodine content; may affect thyroid function."
+    },
+    "e129": {
+      "name": "Allura Red (E129)",
+      "risk": "caution",
+      "concern": "Linked to hyperactivity in sensitive children."
+    },
+    "e150d": {
+      "name": "Caramel IV (E150d)",
+      "risk": "caution",
+      "concern": "Contains 4-MEI, a potential carcinogen."
+    },
+    "e151": {
+      "name": "Brilliant Black (E151)",
+      "risk": "caution",
+      "concern": "Linked to hyperactivity; banned in some countries."
+    },
+    "e155": {
+      "name": "Brown HT (E155)",
+      "risk": "avoid",
+      "concern": "Banned in several countries due to toxicity concerns."
+    },
+    "e171": {
+      "name": "Titanium Dioxide (E171)",
+      "risk": "avoid",
+      "concern": "Classified as possibly carcinogenic (IARC Group 2B); banned in EU food."
+    },
+    "e172": {
+      "name": "Iron Oxides (E172)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e200": {
+      "name": "Sorbic Acid (E200)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e202": {
+      "name": "Potassium Sorbate (E202)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e210": {
+      "name": "Benzoic Acid (E210)",
+      "risk": "caution",
+      "concern": "May cause hyperactivity when combined with certain dyes."
+    },
+    "e211": {
+      "name": "Sodium Benzoate (E211)",
+      "risk": "caution",
+      "concern": "Can form benzene (carcinogen) when combined with vitamin C."
+    },
+    "e220": {
+      "name": "Sulphur Dioxide (E220)",
+      "risk": "caution",
+      "concern": "Can trigger asthma in sensitive individuals."
+    },
+    "e249": {
+      "name": "Potassium Nitrite (E249)",
+      "risk": "caution",
+      "concern": "May form nitrosamines (carcinogens) during digestion."
+    },
+    "e250": {
+      "name": "Sodium Nitrite (E250)",
+      "risk": "avoid",
+      "concern": "Linked to colorectal cancer; forms carcinogenic nitrosamines."
+    },
+    "e251": {
+      "name": "Sodium Nitrate (E251)",
+      "risk": "caution",
+      "concern": "Can convert to nitrite in the body; potential cancer risk."
+    },
+    "e320": {
+      "name": "BHA (E320)",
+      "risk": "avoid",
+      "concern": "Possible human carcinogen (IARC Group 2B)."
+    },
+    "e321": {
+      "name": "BHT (E321)",
+      "risk": "caution",
+      "concern": "Endocrine disruption concerns; restricted in some countries."
+    },
+    "e330": {
+      "name": "Citric Acid (E330)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e415": {
+      "name": "Xanthan Gum (E415)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e421": {
+      "name": "Mannitol (E421)",
+      "risk": "caution",
+      "concern": "May cause digestive discomfort in large amounts."
+    },
+    "e422": {
+      "name": "Glycerol (E422)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e450": {
+      "name": "Diphosphates (E450)",
+      "risk": "caution",
+      "concern": "High phosphate intake may harm kidneys and bones."
+    },
+    "e621": {
+      "name": "MSG (E621)",
+      "risk": "caution",
+      "concern": "May cause symptoms in sensitive individuals (MSG sensitivity)."
+    },
+    "e951": {
+      "name": "Aspartame (E951)",
+      "risk": "caution",
+      "concern": "Possible carcinogen per WHO; debated; avoid if phenylketonuric."
+    },
+    "e952": {
+      "name": "Cyclamate (E952)",
+      "risk": "avoid",
+      "concern": "Banned in USA; possible carcinogen."
+    },
+    "e954": {
+      "name": "Saccharin (E954)",
+      "risk": "caution",
+      "concern": "Formerly listed as possible carcinogen; delisted but debated."
+    },
+    "e955": {
+      "name": "Sucralose (E955)",
+      "risk": "caution",
+      "concern": "May alter gut microbiome; some studies show DNA damage at high doses."
+    },
+    "e960": {
+      "name": "Steviol Glycosides (E960)",
+      "risk": "safe",
+      "concern": null
+    },
+    "e100": {
+      "name": "Curcumin (E100)",
+      "risk": "safe",
+      "concern": null
+    }
   },
   "cosmetic_ingredients": {
-    "parabens": { "name": "Parabens (methylparaben, propylparaben, etc.)", "risk": "avoid", "concern": "Endocrine disruptors; found in breast cancer tissue." },
-    "methylparaben": { "name": "Methylparaben", "risk": "avoid", "concern": "Endocrine disruptor; weakly estrogenic." },
-    "propylparaben": { "name": "Propylparaben", "risk": "avoid", "concern": "Endocrine disruptor; restricted in EU cosmetics." },
-    "butylparaben": { "name": "Butylparaben", "risk": "avoid", "concern": "Strongest estrogenic activity among parabens." },
-    "formaldehyde": { "name": "Formaldehyde", "risk": "avoid", "concern": "Known carcinogen (IARC Group 1)." },
-    "dmdm hydantoin": { "name": "DMDM Hydantoin", "risk": "avoid", "concern": "Formaldehyde-releasing preservative; potential carcinogen." },
-    "quaternium-15": { "name": "Quaternium-15", "risk": "avoid", "concern": "Formaldehyde releaser; strong sensitizer." },
-    "triclosan": { "name": "Triclosan", "risk": "avoid", "concern": "Endocrine disruptor; banned in some hand soaps." },
-    "phthalates": { "name": "Phthalates (DBP, DEHP, DEP)", "risk": "avoid", "concern": "Endocrine disruptors; reproductive toxicity." },
-    "dibutyl phthalate": { "name": "Dibutyl Phthalate (DBP)", "risk": "avoid", "concern": "Endocrine disruptor; banned in EU cosmetics." },
-    "sodium lauryl sulfate": { "name": "Sodium Lauryl Sulfate (SLS)", "risk": "caution", "concern": "Skin irritant; may disrupt barrier function." },
-    "sodium laureth sulfate": { "name": "Sodium Laureth Sulfate (SLES)", "risk": "caution", "concern": "May contain trace 1,4-dioxane (carcinogen)." },
-    "bha": { "name": "BHA (Butylated Hydroxyanisole)", "risk": "avoid", "concern": "Possible carcinogen; endocrine disruptor." },
-    "bht": { "name": "BHT (Butylated Hydroxytoluene)", "risk": "caution", "concern": "Endocrine disruption concerns." },
-    "oxybenzone": { "name": "Oxybenzone (Benzophenone-3)", "risk": "avoid", "concern": "Endocrine disruptor; absorbed through skin; coral reef killer." },
-    "octinoxate": { "name": "Octinoxate (Ethylhexyl Methoxycinnamate)", "risk": "caution", "concern": "Endocrine disruption; reef-toxic." },
-    "retinyl palmitate": { "name": "Retinyl Palmitate", "risk": "caution", "concern": "May accelerate skin tumor development when exposed to sunlight." },
-    "coal tar": { "name": "Coal Tar", "risk": "avoid", "concern": "Known carcinogen; banned in EU." },
-    "lead acetate": { "name": "Lead Acetate", "risk": "avoid", "concern": "Neurotoxin; carcinogen; banned in many regions." },
-    "talc": { "name": "Talc", "risk": "caution", "concern": "May be contaminated with asbestos; possible carcinogen." },
-    "petrolatum": { "name": "Petrolatum (Petroleum Jelly)", "risk": "caution", "concern": "May be contaminated with polycyclic aromatics." },
-    "fragrance": { "name": "Fragrance / Parfum", "risk": "caution", "concern": "Undisclosed mix; common allergen and potential sensitizer." },
-    "alcohol denat": { "name": "Alcohol Denat.", "risk": "caution", "concern": "Can be drying; may disrupt skin barrier with overuse." },
-    "hyaluronic acid": { "name": "Hyaluronic Acid", "risk": "safe", "concern": null },
-    "niacinamide": { "name": "Niacinamide", "risk": "safe", "concern": null },
-    "glycerin": { "name": "Glycerin", "risk": "safe", "concern": null },
-    "aloe vera": { "name": "Aloe Vera", "risk": "safe", "concern": null },
-    "shea butter": { "name": "Shea Butter", "risk": "safe", "concern": null },
-    "vitamin e": { "name": "Vitamin E (Tocopherol)", "risk": "safe", "concern": null },
-    "zinc oxide": { "name": "Zinc Oxide", "risk": "safe", "concern": null }
+    "parabens": {
+      "name": "Parabens (methylparaben, propylparaben, etc.)",
+      "risk": "avoid",
+      "concern": "Endocrine disruptors; found in breast cancer tissue."
+    },
+    "methylparaben": {
+      "name": "Methylparaben",
+      "risk": "avoid",
+      "concern": "Endocrine disruptor; weakly estrogenic."
+    },
+    "propylparaben": {
+      "name": "Propylparaben",
+      "risk": "avoid",
+      "concern": "Endocrine disruptor; restricted in EU cosmetics."
+    },
+    "butylparaben": {
+      "name": "Butylparaben",
+      "risk": "avoid",
+      "concern": "Strongest estrogenic activity among parabens."
+    },
+    "formaldehyde": {
+      "name": "Formaldehyde",
+      "risk": "avoid",
+      "concern": "Known carcinogen (IARC Group 1)."
+    },
+    "dmdm hydantoin": {
+      "name": "DMDM Hydantoin",
+      "risk": "avoid",
+      "concern": "Formaldehyde-releasing preservative; potential carcinogen."
+    },
+    "quaternium-15": {
+      "name": "Quaternium-15",
+      "risk": "avoid",
+      "concern": "Formaldehyde releaser; strong sensitizer."
+    },
+    "triclosan": {
+      "name": "Triclosan",
+      "risk": "avoid",
+      "concern": "Endocrine disruptor; banned in some hand soaps."
+    },
+    "phthalates": {
+      "name": "Phthalates (DBP, DEHP, DEP)",
+      "risk": "avoid",
+      "concern": "Endocrine disruptors; reproductive toxicity."
+    },
+    "dibutyl phthalate": {
+      "name": "Dibutyl Phthalate (DBP)",
+      "risk": "avoid",
+      "concern": "Endocrine disruptor; banned in EU cosmetics."
+    },
+    "sodium lauryl sulfate": {
+      "name": "Sodium Lauryl Sulfate (SLS)",
+      "risk": "caution",
+      "concern": "Skin irritant; may disrupt barrier function."
+    },
+    "sodium laureth sulfate": {
+      "name": "Sodium Laureth Sulfate (SLES)",
+      "risk": "caution",
+      "concern": "May contain trace 1,4-dioxane (carcinogen)."
+    },
+    "bha": {
+      "name": "BHA (Butylated Hydroxyanisole)",
+      "risk": "avoid",
+      "concern": "Possible carcinogen; endocrine disruptor."
+    },
+    "bht": {
+      "name": "BHT (Butylated Hydroxytoluene)",
+      "risk": "caution",
+      "concern": "Endocrine disruption concerns."
+    },
+    "oxybenzone": {
+      "name": "Oxybenzone (Benzophenone-3)",
+      "risk": "avoid",
+      "concern": "Endocrine disruptor; absorbed through skin; coral reef killer."
+    },
+    "octinoxate": {
+      "name": "Octinoxate (Ethylhexyl Methoxycinnamate)",
+      "risk": "caution",
+      "concern": "Endocrine disruption; reef-toxic."
+    },
+    "retinyl palmitate": {
+      "name": "Retinyl Palmitate",
+      "risk": "caution",
+      "concern": "May accelerate skin tumor development when exposed to sunlight."
+    },
+    "coal tar": {
+      "name": "Coal Tar",
+      "risk": "avoid",
+      "concern": "Known carcinogen; banned in EU."
+    },
+    "lead acetate": {
+      "name": "Lead Acetate",
+      "risk": "avoid",
+      "concern": "Neurotoxin; carcinogen; banned in many regions."
+    },
+    "talc": {
+      "name": "Talc",
+      "risk": "caution",
+      "concern": "May be contaminated with asbestos; possible carcinogen."
+    },
+    "petrolatum": {
+      "name": "Petrolatum (Petroleum Jelly)",
+      "risk": "caution",
+      "concern": "May be contaminated with polycyclic aromatics."
+    },
+    "fragrance": {
+      "name": "Fragrance / Parfum",
+      "risk": "caution",
+      "concern": "Undisclosed mix; common allergen and potential sensitizer."
+    },
+    "alcohol denat": {
+      "name": "Alcohol Denat.",
+      "risk": "caution",
+      "concern": "Can be drying; may disrupt skin barrier with overuse."
+    },
+    "hyaluronic acid": {
+      "name": "Hyaluronic Acid",
+      "risk": "safe",
+      "concern": null
+    },
+    "niacinamide": {
+      "name": "Niacinamide",
+      "risk": "safe",
+      "concern": null
+    },
+    "glycerin": {
+      "name": "Glycerin",
+      "risk": "safe",
+      "concern": null
+    },
+    "aloe vera": {
+      "name": "Aloe Vera",
+      "risk": "safe",
+      "concern": null
+    },
+    "shea butter": {
+      "name": "Shea Butter",
+      "risk": "safe",
+      "concern": null
+    },
+    "vitamin e": {
+      "name": "Vitamin E (Tocopherol)",
+      "risk": "safe",
+      "concern": null
+    },
+    "zinc oxide": {
+      "name": "Zinc Oxide",
+      "risk": "safe",
+      "concern": null
+    }
   },
   "food_flags": {
-    "high_sugar": { "name": "High Sugar", "risk": "caution", "concern": "Excess sugar contributes to obesity, diabetes, and heart disease.", "threshold_g_per_100g": 15 },
-    "high_salt": { "name": "High Salt / Sodium", "risk": "caution", "concern": "Excess sodium raises blood pressure and cardiovascular risk.", "threshold_mg_per_100g": 600 },
-    "high_saturated_fat": { "name": "High Saturated Fat", "risk": "caution", "concern": "Raises LDL cholesterol; linked to cardiovascular disease.", "threshold_g_per_100g": 5 },
-    "ultra_processed": { "name": "Ultra-Processed Food", "risk": "avoid", "concern": "NOVA Group 4; linked to cancer, obesity, and poor health outcomes." },
-    "trans_fat": { "name": "Trans Fat", "risk": "avoid", "concern": "Raises LDL, lowers HDL; strongly linked to heart disease. No safe level." },
-    "artificial_sweetener": { "name": "Artificial Sweetener", "risk": "caution", "concern": "May alter gut microbiome; health effects debated." },
-    "seed_oils": { "name": "Seed Oils (Canola, Soybean, Sunflower, Corn)", "risk": "caution", "concern": "High in omega-6; may promote inflammation in excess." },
-    "msg": { "name": "MSG / Monosodium Glutamate", "risk": "caution", "concern": "May cause symptoms in sensitive individuals." },
-    "gluten": { "name": "Gluten (Wheat, Barley, Rye)", "risk": "caution", "concern": "Harmful for celiac disease and gluten sensitivity." }
+    "high_sugar": {
+      "name": "High Sugar",
+      "risk": "caution",
+      "concern": "Excess sugar contributes to obesity, diabetes, and heart disease.",
+      "threshold_g_per_100g": 15
+    },
+    "high_salt": {
+      "name": "High Salt / Sodium",
+      "risk": "caution",
+      "concern": "Excess sodium raises blood pressure and cardiovascular risk.",
+      "threshold_mg_per_100g": 600
+    },
+    "high_saturated_fat": {
+      "name": "High Saturated Fat",
+      "risk": "caution",
+      "concern": "Raises LDL cholesterol; linked to cardiovascular disease.",
+      "threshold_g_per_100g": 5
+    },
+    "ultra_processed": {
+      "name": "Ultra-Processed Food",
+      "risk": "avoid",
+      "concern": "NOVA Group 4; linked to cancer, obesity, and poor health outcomes."
+    },
+    "trans_fat": {
+      "name": "Trans Fat",
+      "risk": "avoid",
+      "concern": "Raises LDL, lowers HDL; strongly linked to heart disease. No safe level."
+    },
+    "artificial_sweetener": {
+      "name": "Artificial Sweetener",
+      "risk": "caution",
+      "concern": "May alter gut microbiome; health effects debated."
+    },
+    "seed_oils": {
+      "name": "Seed Oils (Canola, Soybean, Sunflower, Corn)",
+      "risk": "caution",
+      "concern": "High in omega-6; may promote inflammation in excess."
+    },
+    "msg": {
+      "name": "MSG / Monosodium Glutamate",
+      "risk": "caution",
+      "concern": "May cause symptoms in sensitive individuals."
+    },
+    "gluten": {
+      "name": "Gluten (Wheat, Barley, Rye)",
+      "risk": "caution",
+      "concern": "Harmful for celiac disease and gluten sensitivity."
+    }
   }
 }

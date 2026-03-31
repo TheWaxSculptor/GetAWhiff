@@ -127,12 +127,44 @@ export default function StrainDetailScreen() {
             </View>
             <View style={styles.statBox}>
               <Text style={styles.statLabel}>Flower Time</Text>
-              <Text style={styles.statValue}>{strain.floweringTime}</Text>
+              <Text style={styles.statValue}>{strain.growthTime}</Text>
             </View>
             <View style={styles.statBox}>
               <Text style={styles.statLabel}>Yield</Text>
-              <Text style={styles.statValue}>{strain.yield}</Text>
+              <Text style={styles.statValue}>{strain.expectedYield}</Text>
             </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.sectionTitle}>Lineage & Family Tree</Text>
+          <View style={styles.lineageBox}>
+            <View style={styles.lineageRow}>
+              <Ionicons name="git-branch-outline" size={18} color={Colors.ink} />
+              <Text style={styles.lineageLabel}>Parents:</Text>
+              <Text style={styles.lineageValue}>{strain.lineage.parents.join(' x ')}</Text>
+            </View>
+            {strain.lineage.origin && (
+              <View style={styles.lineageRow}>
+                <Ionicons name="location-outline" size={18} color={Colors.ink} />
+                <Text style={styles.lineageLabel}>Origin:</Text>
+                <Text style={styles.lineageValue}>{strain.lineage.origin}</Text>
+              </View>
+            )}
+            {strain.lineage.heritage && (
+              <View style={styles.lineageRow}>
+                <Ionicons name="bookmarks-outline" size={18} color={Colors.ink} />
+                <Text style={styles.lineageLabel}>Heritage:</Text>
+                <Text style={styles.lineageValue}>{strain.lineage.heritage}</Text>
+              </View>
+            )}
+            {strain.breeder && (
+              <View style={styles.lineageRow}>
+                <Ionicons name="flask-outline" size={18} color={Colors.ink} />
+                <Text style={styles.lineageLabel}>Breeder:</Text>
+                <Text style={styles.lineageValue}>{strain.breeder}</Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.divider} />
@@ -241,6 +273,33 @@ const styles = StyleSheet.create({
   statValue: { fontFamily: Fonts.handwritten, fontSize: 16, color: Colors.ink, fontWeight: 'bold' },
   sectionTitle: { fontFamily: Fonts.handwritten, fontSize: 24, color: Colors.ink, marginBottom: Spacing.md },
   divider: { height: 1, backgroundColor: Colors.ink, opacity: 0.1, marginVertical: Spacing.lg },
+  lineageBox: {
+    backgroundColor: Colors.white,
+    padding: Spacing.md,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.ink,
+    borderStyle: 'dashed',
+  },
+  lineageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    gap: 8,
+  },
+  lineageLabel: {
+    fontFamily: Fonts.handwritten,
+    fontSize: 14,
+    color: Colors.ink,
+    opacity: 0.7,
+    width: 70,
+  },
+  lineageValue: {
+    fontFamily: Fonts.handwritten,
+    fontSize: 16,
+    color: Colors.ink,
+    flex: 1,
+  },
   errorText: { fontFamily: Fonts.handwritten, fontSize: 18, color: Colors.ink, marginTop: Spacing.md },
   
   favBtn: {
