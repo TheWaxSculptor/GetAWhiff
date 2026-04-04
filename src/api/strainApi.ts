@@ -8,8 +8,8 @@ export interface StrainInfo {
   thcContent: string;
   cbdContent?: string;
   difficulty: Difficulty;
-  growthTime: string; // e.g., "8-10 weeks"
-  expectedYield: string; // e.g., "High (500g/m²)"
+  growthTime: string;
+  expectedYield: string;
   growingTips: string[];
   medicalUses: string[];
   effects: string[];
@@ -145,21 +145,20 @@ const mockStrains: StrainInfo[] = [
 // Curated local database for 'The Bud Bible'
 const strainDatabase: StrainInfo[] = [...mockStrains];
 
-
 export async function fetchStrains(query?: string, type?: StrainType, difficulty?: Difficulty): Promise<StrainInfo[]> {
-  await new Promise(resolve => setTimeout(resolve, 300)); // Quick local simulate
+  await new Promise(resolve => setTimeout(resolve, 300));
   let results = [...strainDatabase];
 
   if (query) {
     const q = query.toLowerCase();
-    results = results.filter(s => 
-      s.name.toLowerCase().includes(q) || 
+    results = results.filter(s =>
+      s.name.toLowerCase().includes(q) ||
       s.description.toLowerCase().includes(q) ||
       s.lineage.parents.some(p => p.toLowerCase().includes(q)) ||
       (s.lineage.heritage && s.lineage.heritage.toLowerCase().includes(q))
     );
   }
-  
+
   if (type) {
     results = results.filter(s => s.type === type);
   }
