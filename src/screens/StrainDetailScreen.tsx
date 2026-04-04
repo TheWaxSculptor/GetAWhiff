@@ -8,11 +8,11 @@ import { AdBanner } from '../components/AdBanner';
 import { isFavorite, addFavorite, removeFavorite } from '../api/favoritesStorage';
 import { getJournalEntries, addJournalEntry, JournalEntry, addGrowPlant, getGrowPlants } from '../api/journalStorage';
 
-type ParamList = { Detail: { strainId: string } };
+type ParamList = { StrainDetail: { strainId: string } };
 
 export default function StrainDetailScreen() {
-  const route = useRoute<RouteProp<ParamList, 'Detail'>>();
-  const navigation = useNavigation();
+  const route = useRoute<RouteProp<ParamList, 'StrainDetail'>>();
+  const navigation = useNavigation<any>();
   const { strainId } = route.params;
 
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ export default function StrainDetailScreen() {
       setStrain(data);
       const fav = await isFavorite(data.id);
       setIsFav(fav);
-      
+
       const plants = await getGrowPlants();
       const activePlant = plants.find(p => p.strainId === data.id && p.status === 'Growing');
       if (activePlant) {
@@ -61,12 +61,12 @@ export default function StrainDetailScreen() {
     if (!strain) return;
     const plant = await addGrowPlant(strain.id, strain.name);
     setPlantId(plant.id);
-    Alert.alert("Success", "Added to your Active Grow Journal!");
+    Alert.alert('Success', 'Added to your Active Grow Journal!');
   };
 
   const handleAddNote = async () => {
     if (!newNote.trim() || !plantId) return;
-    await addJournalEntry(plantId, { 
+    await addJournalEntry(plantId, {
       content: newNote.trim(),
       healthStatus: health,
       height: height || undefined,
@@ -108,10 +108,10 @@ export default function StrainDetailScreen() {
                 <Text style={styles.thcText}>THC: {strain.thcContent}</Text>
               </View>
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
               <Text style={styles.title}>{strain.name}</Text>
               <TouchableOpacity onPress={toggleFav} style={styles.favBtn}>
-                <Ionicons name={isFav ? "heart" : "heart-outline"} size={32} color={isFav ? Colors.avoid : Colors.white} />
+                <Ionicons name={isFav ? 'heart' : 'heart-outline'} size={32} color={isFav ? Colors.avoid : Colors.white} />
               </TouchableOpacity>
             </View>
           </View>
@@ -119,7 +119,7 @@ export default function StrainDetailScreen() {
 
         <View style={styles.content}>
           <Text style={styles.description}>{strain.description}</Text>
-          
+
           <View style={styles.statsRow}>
             <View style={styles.statBox}>
               <Text style={styles.statLabel}>Difficulty</Text>
@@ -170,9 +170,9 @@ export default function StrainDetailScreen() {
           <View style={styles.divider} />
 
           <Text style={styles.sectionTitle}>Check Health</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.healthBtn}
-            onPress={() => navigation.navigate('ScanTab' as any)}
+            onPress={() => navigation.navigate('ScanTab')}
           >
             <Ionicons name="medical" size={24} color={Colors.white} />
             <Text style={styles.healthBtnText}>Start Health Diagnosis</Text>
@@ -185,30 +185,30 @@ export default function StrainDetailScreen() {
               <Text style={styles.sectionTitle}>Grow Journal</Text>
               <View style={styles.journalBox}>
                 <View style={styles.inputRow}>
-                   <View style={{flex: 1}}>
-                     <Text style={styles.inputLabel}>Height (cm)</Text>
-                     <TextInput 
-                       style={styles.miniInput} 
-                       value={height} 
-                       onChangeText={setHeight}
-                       placeholder="e.g. 45"
-                       keyboardType="numeric"
-                     />
-                   </View>
-                   <View style={{flex: 1, marginLeft: 10}}>
-                     <Text style={styles.inputLabel}>Health</Text>
-                     <View style={styles.statusRow}>
-                        {(['Excellent', 'Good', 'Fair', 'Poor'] as const).map(s => (
-                           <TouchableOpacity key={s} onPress={() => setHealth(s)}>
-                             <Ionicons 
-                               name={health === s ? "radio-button-on" : "radio-button-off"} 
-                               size={16} 
-                               color={Colors.ink} 
-                             />
-                           </TouchableOpacity>
-                        ))}
-                     </View>
-                   </View>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.inputLabel}>Height (cm)</Text>
+                    <TextInput
+                      style={styles.miniInput}
+                      value={height}
+                      onChangeText={setHeight}
+                      placeholder="e.g. 45"
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  <View style={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={styles.inputLabel}>Health</Text>
+                    <View style={styles.statusRow}>
+                      {(['Excellent', 'Good', 'Fair', 'Poor'] as const).map(s => (
+                        <TouchableOpacity key={s} onPress={() => setHealth(s)}>
+                          <Ionicons
+                            name={health === s ? 'radio-button-on' : 'radio-button-off'}
+                            size={16}
+                            color={Colors.ink}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
                 </View>
 
                 <TextInput
@@ -225,16 +225,16 @@ export default function StrainDetailScreen() {
               </View>
 
               {journal.map(entry => (
-                 <View key={entry.id} style={styles.journalEntry}>
-                   <View style={styles.journalEntryHeader}>
-                     <Text style={styles.journalDate}>{new Date(entry.createdAt).toLocaleDateString()}</Text>
-                     <View style={styles.entryStats}>
-                        {entry.height && <Text style={styles.entryStatText}>{entry.height}cm</Text>}
-                        <Text style={styles.entryStatText}>{entry.healthStatus}</Text>
-                     </View>
-                   </View>
-                   <Text style={styles.journalContent}>{entry.content}</Text>
-                 </View>
+                <View key={entry.id} style={styles.journalEntry}>
+                  <View style={styles.journalEntryHeader}>
+                    <Text style={styles.journalDate}>{new Date(entry.createdAt).toLocaleDateString()}</Text>
+                    <View style={styles.entryStats}>
+                      {entry.height && <Text style={styles.entryStatText}>{entry.height}cm</Text>}
+                      <Text style={styles.entryStatText}>{entry.healthStatus}</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.journalContent}>{entry.content}</Text>
+                </View>
               ))}
             </>
           ) : (
@@ -243,7 +243,6 @@ export default function StrainDetailScreen() {
               <Text style={styles.startGrowBtnText}>Add To Grow Journal</Text>
             </TouchableOpacity>
           )}
-
         </View>
       </ScrollView>
 
@@ -281,158 +280,27 @@ const styles = StyleSheet.create({
     borderColor: Colors.ink,
     borderStyle: 'dashed',
   },
-  lineageRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-    gap: 8,
-  },
-  lineageLabel: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 14,
-    color: Colors.ink,
-    opacity: 0.7,
-    width: 70,
-  },
-  lineageValue: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 16,
-    color: Colors.ink,
-    flex: 1,
-  },
+  lineageRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, gap: 8 },
+  lineageLabel: { fontFamily: Fonts.handwritten, fontSize: 14, color: Colors.ink, opacity: 0.7, width: 70 },
+  lineageValue: { fontFamily: Fonts.handwritten, fontSize: 16, color: Colors.ink, flex: 1 },
   errorText: { fontFamily: Fonts.handwritten, fontSize: 18, color: Colors.ink, marginTop: Spacing.md },
-  
-  favBtn: {
-    padding: 8,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
-  },
-  healthBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.avoid,
-    padding: Spacing.md,
-    borderRadius: Radius.md,
-    gap: 12,
-  },
-  healthBtnText: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 18,
-    color: Colors.white,
-  },
-  journalBox: {
-    backgroundColor: Colors.white,
-    padding: Spacing.md,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    marginBottom: Spacing.lg,
-  },
-  journalInput: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 16,
-    color: Colors.ink,
-    minHeight: 100,
-    textAlignVertical: 'top',
-  },
-  saveNoteBtn: {
-    alignSelf: 'flex-end',
-    backgroundColor: Colors.highlightBrown,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: Radius.sm,
-    marginTop: 8,
-  },
-  saveNoteBtnText: {
-    fontFamily: Fonts.handwritten,
-    color: Colors.white,
-    fontSize: 14,
-  },
-  journalEntry: {
-    backgroundColor: Colors.white,
-    padding: Spacing.md,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: Colors.ink,
-    marginBottom: Spacing.md,
-  },
-  journalDate: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 12,
-    color: Colors.ink,
-    opacity: 0.6,
-    marginBottom: 4,
-  },
-  journalContent: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 15,
-    color: Colors.ink,
-    lineHeight: 20,
-  },
-  startGrowBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.stickyGreen,
-    padding: Spacing.md,
-    borderRadius: Radius.md,
-    gap: 12,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-  },
-  startGrowBtnText: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 18,
-    color: Colors.white,
-  },
-  inputRow: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    alignItems: 'center',
-  },
-  inputLabel: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 12,
-    color: Colors.ink,
-    marginBottom: 2,
-  },
-  miniInput: {
-    backgroundColor: Colors.parchment,
-    borderWidth: 1,
-    borderColor: Colors.ink,
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    fontFamily: Fonts.handwritten,
-    fontSize: 14,
-  },
-  statusRow: {
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
-    paddingVertical: 4,
-  },
-  journalEntryHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
-    paddingBottom: 4,
-  },
-  entryStats: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  entryStatText: {
-    fontFamily: Fonts.handwritten,
-    fontSize: 11,
-    color: Colors.highlightBrown,
-    fontWeight: 'bold',
-  }
+  favBtn: { padding: 8, backgroundColor: 'rgba(0,0,0,0.3)', borderRadius: Radius.md, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' },
+  healthBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.avoid, padding: Spacing.md, borderRadius: Radius.md, gap: 12 },
+  healthBtnText: { fontFamily: Fonts.handwritten, fontSize: 18, color: Colors.white },
+  journalBox: { backgroundColor: Colors.white, padding: Spacing.md, borderRadius: Radius.md, borderWidth: 1, borderColor: Colors.ink, marginBottom: Spacing.lg },
+  journalInput: { fontFamily: Fonts.handwritten, fontSize: 16, color: Colors.ink, minHeight: 100, textAlignVertical: 'top' },
+  saveNoteBtn: { alignSelf: 'flex-end', backgroundColor: Colors.highlightBrown, paddingHorizontal: 16, paddingVertical: 8, borderRadius: Radius.sm, marginTop: 8 },
+  saveNoteBtnText: { fontFamily: Fonts.handwritten, color: Colors.white, fontSize: 14 },
+  journalEntry: { backgroundColor: Colors.white, padding: Spacing.md, borderRadius: Radius.md, borderWidth: 1, borderStyle: 'dashed', borderColor: Colors.ink, marginBottom: Spacing.md },
+  journalDate: { fontFamily: Fonts.handwritten, fontSize: 12, color: Colors.ink, opacity: 0.6, marginBottom: 4 },
+  journalContent: { fontFamily: Fonts.handwritten, fontSize: 15, color: Colors.ink, lineHeight: 20 },
+  startGrowBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.stickyGreen, padding: Spacing.md, borderRadius: Radius.md, gap: 12, borderWidth: 1, borderColor: Colors.ink },
+  startGrowBtnText: { fontFamily: Fonts.handwritten, fontSize: 18, color: Colors.white },
+  inputRow: { flexDirection: 'row', marginBottom: 10, alignItems: 'center' },
+  inputLabel: { fontFamily: Fonts.handwritten, fontSize: 12, color: Colors.ink, marginBottom: 2 },
+  miniInput: { backgroundColor: Colors.parchment, borderWidth: 1, borderColor: Colors.ink, borderRadius: 4, paddingHorizontal: 8, paddingVertical: 4, fontFamily: Fonts.handwritten, fontSize: 14 },
+  statusRow: { flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 4 },
+  journalEntryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, borderBottomWidth: 1, borderBottomColor: 'rgba(0,0,0,0.1)', paddingBottom: 4 },
+  entryStats: { flexDirection: 'row', gap: 10 },
+  entryStatText: { fontFamily: Fonts.handwritten, fontSize: 11, color: Colors.highlightBrown, fontWeight: 'bold' },
 });
