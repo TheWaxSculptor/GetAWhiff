@@ -1,55 +1,44 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Animated, { 
-  useSharedValue, 
-  useAnimatedStyle, 
-  withTiming, 
-  Easing,
-  runOnJS,
-  withSequence,
-  withDelay
-} from 'react-native-reanimated';
+import React, { useEffect, useRef } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
 
 interface PageFlipContainerProps {
   children: React.ReactNode;
-  trigger: any; // Change this to trigger animation
+  trigger: any;
 }
 
 export const PageFlipContainer = ({ children, trigger }: PageFlipContainerProps) => {
-  const rotation = useSharedValue(0);
-  const opacity = useSharedValue(1);
+  const opacity = useRef(new Animated.Value(1)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Initial entrance or trigger
-    rotation.value = -25;
-    opacity.value = 0;
-    
-    rotation.value = withTiming(0, { 
-      duration: 800, 
-      easing: Easing.bezier(0.1, 0.5, 0.5, 1) 
-    });
-    opacity.value = withTiming(1, { duration: 500 });
+    // Quick fade + slide animation using built-in Animated (no native worklets)
+    opacity.setValue(0);
+    translateX.setValue(-20);
 
+    Animated.parallel([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateX, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
   }, [trigger]);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: opacity.value,
-      shadowColor: '#000',
-      shadowOffset: { width: rotation.value, height: 2 },
-      shadowOpacity: Math.abs(rotation.value / 40),
-      shadowRadius: 10,
-      transform: [
-        { perspective: 1200 },
-        { rotateY: `${rotation.value}deg` },
-        { skewY: `${rotation.value / 10}deg` },
-        { translateX: rotation.value * 1.5 }
-      ],
-    };
-  });
-
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          opacity,
+          transform: [{ translateX }],
+        },
+      ]}
+    >
       {children}
     </Animated.View>
   );
