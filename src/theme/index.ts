@@ -1,19 +1,14 @@
 export const Colors = {
-  // Brand
   primary: '#7C4DFF',
   primaryLight: '#9E7BFF',
   primaryDark: '#5E35B1',
   accent: '#00E5FF',
   accentGreen: '#00E676',
-
-  // Grades
   gradeA: '#00E676',
   gradeB: '#69F0AE',
   gradeC: '#FFCA28',
   gradeD: '#FF7043',
   gradeF: '#F44336',
-
-  // Risk chips
   safe: '#1B5E20',
   safeBg: '#1B5E2033',
   safeFg: '#69F0AE',
@@ -23,24 +18,17 @@ export const Colors = {
   avoid: '#7B0000',
   avoidBg: '#B71C1C33',
   avoidFg: '#FF5252',
-
-  // Backgrounds
   bg: '#0d0d1a',
   bgCard: '#141428',
   bgCardLight: '#1a1a35',
   surface: '#1E1E3A',
   border: '#2a2a4a',
-
-  // Text
   text: '#F0F0FF',
   textSecondary: '#8888BB',
   textMuted: '#44446A',
-
-  // General
   white: '#FFFFFF',
   black: '#000000',
   error: '#F44336',
-  // Notebook palette (new)
   parchment: '#fdf5e6',
   ink: '#2b2b2b',
   stickyGreen: '#e6ffe6',
@@ -53,8 +41,7 @@ export const Fonts = {
   semiBold: 'Inter_600SemiBold',
   bold: 'Inter_700Bold',
   extraBold: 'Inter_800ExtraBold',
-  // Handwritten font for notebook style
-  handwritten: 'IndieFlower_400Regular',
+  handwritten: 'Inter_600SemiBold', // Previously IndieFlower — removed
 };
 
 export const Spacing = {
