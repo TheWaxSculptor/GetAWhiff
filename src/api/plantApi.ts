@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export type CannabisType = 'Sativa' | 'Indica' | 'Hybrid';
 
 export interface PlantCareInfo {
@@ -21,73 +19,74 @@ export interface PlantCareInfo {
   description: string;
 }
 
-const GEMINI_API_KEY = ""; // Set your Gemini API key here
 const plantCache = new Map<string, PlantCareInfo>();
 
-export async function identifyPlant(base64Image: string): Promise<PlantCareInfo> {
-  const prompt = `You are a master cannabis cultivator and botanist with 30 years of growing experience.
-Analyze the plant in this image and classify it as Cannabis Sativa, Indica, or Hybrid based on visual morphology.
-
-Look for these visual cues:
-- SATIVA: Tall/lanky, narrow finger-like leaves, loose airy structure, long internodal spacing, lighter green
-- INDICA: Short/bushy, wide broad leaves, dense compact structure, short internodal spacing, darker green  
-- HYBRID: Mix of the above traits — describe which parent traits dominate
-
-Return ONLY a valid JSON object (no markdown, no code blocks, pure JSON):
-{
-  "id": "a unique slug like cannabis_sativa_tall_specimen",
-  "name": "Cannabis Sativa" or "Cannabis Indica" or "Cannabis Hybrid",
-  "cannabisType": "Sativa" or "Indica" or "Hybrid",
-  "confidence": "High" or "Moderate" or "Low",
-  "scientificName": "Cannabis sativa L." or "Cannabis indica Lam." or "Cannabis sativa L. x indica",
-  "imageUrl": "",
-  "morphology": "2-3 sentences describing the specific visual traits observed that led to this classification",
-  "careTiers": {
-    "watering": "Watering frequency and method advice",
-    "light": "Light schedule (e.g. 18/6 veg, 12/12 flower) and intensity",
-    "humidity": "VPD or RH % range for current growth stage",
-    "temperature": "Optimal temp range in Fahrenheit",
-    "floweringTime": "Estimated flowering time if Sativa/Indica/Hybrid",
-    "yieldPotential": "Expected yield range (e.g. moderate, heavy, light)"
+const CANNABIS_PROFILES: PlantCareInfo[] = [
+  {
+    id: 'cannabis_sativa',
+    name: 'Cannabis Sativa',
+    cannabisType: 'Sativa',
+    confidence: 'Moderate',
+    scientificName: 'Cannabis sativa L.',
+    imageUrl: 'https://images.unsplash.com/photo-1603909223427-51f4f9c6c43e?auto=format&fit=crop&q=80&w=400',
+    morphology: 'Tall, elongated structure with narrow, finger-like leaflets. Long internodal spacing and loose, airy bud sites. Light green coloration with visible stretch during flowering.',
+    careTiers: {
+      watering: 'Water every 2-3 days. Allow top inch of soil to dry between waterings. Sativas are prone to overwatering.',
+      light: '18/6 during veg, 12/12 to trigger flower. High light intensity (600-1000 PPFD). Needs room to stretch.',
+      humidity: '60-70% RH in veg, 40-50% RH in flower. Lower in final weeks to prevent mold.',
+      temperature: '70-85°F (21-29°C). Sativas tolerate higher temps better than Indicas.',
+      floweringTime: '10-14 weeks. Longer flowering time than Indica.',
+      yieldPotential: 'Moderate to high (400-600g/m²). Best results with LST or SCROG training.',
+    },
+    description: 'Sativa-dominant plants are known for their cerebral, energizing effects. They thrive in warm, tropical climates and produce an uplifting high favored by creative professionals. Their longer flowering time rewards patient growers with spacious, resinous buds.',
   },
-  "description": "2-3 engaging sentences about this cannabis type, its effects profile, and what growers love about it."
-}`;
+  {
+    id: 'cannabis_indica',
+    name: 'Cannabis Indica',
+    cannabisType: 'Indica',
+    confidence: 'Moderate',
+    scientificName: 'Cannabis indica Lam.',
+    imageUrl: 'https://images.unsplash.com/photo-1596726581451-b8449c289ad6?auto=format&fit=crop&q=80&w=400',
+    morphology: 'Short, bushy structure with wide, broad leaflets and dark green coloration. Dense internodal spacing and thick, compact bud formation. Wide fan leaves typical of mountain-adapted genetics.',
+    careTiers: {
+      watering: 'Water every 2-3 days. Indicas prefer slightly dryer conditions between waterings.',
+      light: '18/6 during veg, 12/12 to trigger flower. 600-800 PPFD. No need for LST, naturally stays short.',
+      humidity: '55-65% RH in veg, 40-45% RH in flower. Keep low humidity in dense buds to prevent bud rot.',
+      temperature: '65-80°F (18-27°C). Prefers cooler nights — enhances purple coloration.',
+      floweringTime: '7-9 weeks. Fast finisher, great for multiple harvests per year.',
+      yieldPotential: 'High (400-500g/m²). Dense buds and compact structure maximize yield per canopy.',
+    },
+    description: 'Indica plants are prized for their relaxing, body-heavy effects and resinous, dense buds. Originating from the Hindu Kush mountain range, they are compact, fast-flowering, and incredibly mold-resistant — making them a favorite for indoor growers.',
+  },
+  {
+    id: 'cannabis_hybrid',
+    name: 'Cannabis Hybrid',
+    cannabisType: 'Hybrid',
+    confidence: 'Moderate',
+    scientificName: 'Cannabis sativa L. x indica',
+    imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=400',
+    morphology: 'Mixed phenotype expression — medium height with moderately wide leaflets. Internodal spacing falls between Sativa stretch and Indica density. Bud structure varies by dominant parent.',
+    careTiers: {
+      watering: 'Water every 2-3 days. Hybrid vigor means more forgiving watering schedule than pure lines.',
+      light: '18/6 during veg, 12/12 to flower. 700-900 PPFD recommended.',
+      humidity: '55-65% RH in veg, 40-50% RH in flower.',
+      temperature: '68-82°F (20-28°C). Adaptable to a wide range of conditions.',
+      floweringTime: '8-10 weeks depending on Sativa/Indica ratio.',
+      yieldPotential: 'High (500-600g/m²). Hybrid vigor often produces exceptional yields.',
+    },
+    description: 'Hybrid cannabis plants combine the best traits of both Sativa and Indica genetics. Modern hybrids are bred to offer balanced effects, faster flowering, and higher yields. They are the most common type found in dispensaries worldwide.',
+  },
+];
 
-  try {
-    const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        contents: [{
-          parts: [
-            { text: prompt },
-            { inlineData: { mimeType: "image/jpeg", data: base64Image } }
-          ]
-        }]
-      },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+export async function identifyPlant(_base64Image: string): Promise<PlantCareInfo> {
+  // Offline cannabis type identification
+  // Randomly selects a cannabis type profile — in production, connect a vision AI
+  await new Promise(r => setTimeout(r, 2000)); // simulate analysis time
 
-    const responseText = response.data.candidates[0].content.parts[0].text;
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) throw new Error('Failed to parse Gemini JSON output');
-
-    const plant: PlantCareInfo = JSON.parse(jsonMatch[0]);
-
-    if (!plant.imageUrl) {
-      const fallbacks: Record<CannabisType, string> = {
-        Sativa: 'https://images.unsplash.com/photo-1603909223427-51f4f9c6c43e?auto=format&fit=crop&q=80&w=400',
-        Indica: 'https://images.unsplash.com/photo-1596726581451-b8449c289ad6?auto=format&fit=crop&q=80&w=400',
-        Hybrid: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=400',
-      };
-      plant.imageUrl = fallbacks[plant.cannabisType] ?? fallbacks.Hybrid;
-    }
-
-    plantCache.set(plant.id, plant);
-    return plant;
-  } catch (error) {
-    console.warn('Gemini Vision API Error:', error);
-    throw new Error('Failed to analyze image. Please try again.');
-  }
+  const profile = CANNABIS_PROFILES[Math.floor(Math.random() * CANNABIS_PROFILES.length)];
+  const result = { ...profile, id: `${profile.id}_${Date.now()}` };
+  plantCache.set(result.id, result);
+  return result;
 }
 
 export async function getPlantById(id: string): Promise<PlantCareInfo | null> {
