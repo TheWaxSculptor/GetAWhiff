@@ -88,24 +88,10 @@ export async function fetchProductByBarcode(barcode: string, base64Image?: strin
     }
   } catch (e) {}
 
-  // Fallback 2: Gemini Vision Recognition (If we have an image)
-  if (base64Image) {
-     try {
-       const geminiReport = await identifyProductViaGemini(base64Image);
-       if (geminiReport && geminiReport.product?.product_name) {
-         // Force status 1 for visual match
-         geminiReport.status = 1;
-         return geminiReport;
-       }
-     } catch (e) {
-       console.warn("Gemini Product ID failed", e);
-     }
-  }
 
   return null;
 }
 
-const GEMINI_API_KEY = ""; // Use your Gemini API key here.
 
 async function identifyProductViaGemini(base64Image: string): Promise<OpenFoodFactsProduct | null> {
   const prompt = `You are the master intelligence behind the 'Get A Whiff' botanical and product database. 
@@ -203,10 +189,6 @@ export async function searchProducts(query: string): Promise<SearchResult[]> {
       (p: SearchResult) => p.product_name && p.code
     );
 
-    // AI Fallback if no traditional results found
-    if (results.length === 0 && query.length > 2) {
-      const aiMatch = await searchProductsViaAI(query);
-      if (aiMatch) return [aiMatch];
     }
 
     return results;
@@ -216,26 +198,3 @@ export async function searchProducts(query: string): Promise<SearchResult[]> {
   }
 }
 
-async function searchProductsViaAI(query: string): Promise<SearchResult | null> {
-  const prompt = `You are the master botanical and product intelligence for 'Get A Whiff'.
-  A user searched for: "${query}".
-  Identify ONLY the single most likely product (specializing in rolling papers, herbs, or natural remedies).
-  If you find a match, return ONLY a valid JSON object matching this structure:
-  {
-    "code": "ai_match_id",
-    "product_name": "Full Product Name",
-    "brands": "Brand Name",
-    "image_url": "https://images.unsplash.com/photo-1596726581451-b8449c289ad6?auto=format&fit=crop&q=80&w=400"
-  }`;
-
-  try {
-    const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      { contents: [{ parts: [{ text: prompt }] }] }
-    );
-    const text = response.data.candidates[0].content.parts[0].text;
-    const match = text.match(/\{[\s\S]*\}/);
-    if (match) return JSON.parse(match[0]);
-  } catch (e) {}
-  return null;
-}
