@@ -28,6 +28,7 @@ export default function ScanScreen() {
   const isFocused = useIsFocused();
   const cameraRef = useRef<CameraView>(null);
   const scanAnim = useRef(new Animated.Value(0)).current;
+  const processingRef = useRef(false); // ref to prevent double-fire
 
   const animatedStyle = {
     opacity: scanAnim,
@@ -51,25 +52,28 @@ export default function ScanScreen() {
     );
   }
 
-  const handleBarcodeScanned = async (data: string) => {
-    if (processing || mode !== 'barcode') return;
-    setScannedCode(data);
+  const handleBarcodeScanned = (data: string) => {
+    // Guard against rapid double-fires from the scanner
+    if (processingRef.current || mode !== 'barcode') return;
+    processingRef.current = true;
     setProcessing(true);
+    setScannedCode(data);
+
     Animated.sequence([
-      Animated.timing(scanAnim, { toValue: 1, duration: 400, useNativeDriver: true }),
-      Animated.delay(800),
-      Animated.timing(scanAnim, { toValue: 0, duration: 300, useNativeDriver: true }),
+      Animated.timing(scanAnim, { toValue: 1, duration: 300, useNativeDriver: true }),
+      Animated.delay(700),
+      Animated.timing(scanAnim, { toValue: 0, duration: 250, useNativeDriver: true }),
     ]).start();
-    let photoBase64: string | undefined;
-    try {
-      const photo = await cameraRef.current?.takePictureAsync({ quality: 0.3, base64: true });
-      photoBase64 = photo?.base64;
-    } catch (e) { console.warn('Snapshot failed', e); }
+
     setTimeout(() => {
-      navigation.navigate('ProductDetail', { barcode: data, imageUri: photoBase64 } as any);
-      setProcessing(false);
-      setScannedCode(null);
-    }, 1200);
+      navigation.navigate('ProductDetail', { barcode: data } as any);
+      // Reset after navigation
+      setTimeout(() => {
+        processingRef.current = false;
+        setProcessing(false);
+        setScannedCode(null);
+      }, 500);
+    }, 1000);
   };
 
   const handleCaptureImage = async () => {
@@ -97,7 +101,7 @@ export default function ScanScreen() {
             ref={cameraRef}
             style={StyleSheet.absoluteFillObject}
             zoom={zoom}
-            onBarcodeScanned={mode === 'barcode' && !processing ? (event) => { if (!processing) handleBarcodeScanned(event.data); } : undefined}
+            onBarcodeScanned={mode === 'barcode' && !processing ? (event) => handleBarcodeScanned(event.data) : undefined}
             barcodeScannerSettings={{ barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'qr', 'code128', 'code39'] }}
           />
           <View style={styles.overlay} pointerEvents="box-none">
@@ -115,6 +119,7 @@ export default function ScanScreen() {
                 <Text style={[styles.toggleText, mode === 'toxins' && styles.toggleTextActive]}>Toxins</Text>
               </TouchableOpacity>
             </View>
+
             {processing ? (
               <View style={styles.processingContainer}>
                 <ActivityIndicator size="large" color={mode === 'barcode' ? Colors.primary : Colors.accentGreen} />
@@ -138,7 +143,7 @@ export default function ScanScreen() {
                   <Ionicons name="scan-outline" size={150} color="rgba(255,255,255,0.3)" />
                 </View>
                 <Text style={styles.instruction} pointerEvents="none">
-                  {mode === 'plant' ? 'Point at whole plant — detects Sativa / Indica / Hybrid' : 'Capture text on an ingredient label'}
+                  {mode === 'plant' ? 'Point at whole plant — detects Sativa / Indica / Hybrid' : 'Capture ingredient label'}
                 </Text>
                 <View pointerEvents="auto" style={{ position: 'absolute', bottom: 50 }}>
                   <TouchableOpacity style={styles.captureButtonOuter} onPress={handleCaptureImage}>
@@ -147,6 +152,7 @@ export default function ScanScreen() {
                 </View>
               </View>
             )}
+
             {scannedCode && (
               <Animated.View style={[styles.scanSticker, animatedStyle]}>
                 <Ionicons name="checkmark-circle" size={40} color={Colors.white} />
@@ -154,6 +160,7 @@ export default function ScanScreen() {
                 <Text style={styles.stickerCode}>{scannedCode}</Text>
               </Animated.View>
             )}
+
             <View style={styles.zoomContainer}>
               <TouchableOpacity onPress={() => setZoom(Math.min(zoom + 0.1, 1))} style={styles.zoomBtn}>
                 <Ionicons name="add" size={24} color={Colors.white} />
