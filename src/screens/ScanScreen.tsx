@@ -28,7 +28,7 @@ export default function ScanScreen() {
   const isFocused = useIsFocused();
   const cameraRef = useRef<CameraView>(null);
   const scanAnim = useRef(new Animated.Value(0)).current;
-  const processingRef = useRef(false); // ref to prevent double-fire
+  const processingRef = useRef(false);
 
   const animatedStyle = {
     opacity: scanAnim,
@@ -53,7 +53,6 @@ export default function ScanScreen() {
   }
 
   const handleBarcodeScanned = (data: string) => {
-    // Guard against rapid double-fires from the scanner
     if (processingRef.current || mode !== 'barcode') return;
     processingRef.current = true;
     setProcessing(true);
@@ -67,7 +66,6 @@ export default function ScanScreen() {
 
     setTimeout(() => {
       navigation.navigate('ProductDetail', { barcode: data } as any);
-      // Reset after navigation
       setTimeout(() => {
         processingRef.current = false;
         setProcessing(false);
@@ -93,6 +91,12 @@ export default function ScanScreen() {
     finally { setProcessing(false); }
   };
 
+  const plantModeInstructions: Record<ScanMode, string> = {
+    barcode: 'Align barcode inside the frame',
+    plant: 'Point at any plant and tap capture — flowers, herbs, trees & more',
+    toxins: 'Capture an ingredient label for safety analysis',
+  };
+
   return (
     <View style={styles.container}>
       {isFocused && (
@@ -112,7 +116,7 @@ export default function ScanScreen() {
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toggleBtn, mode === 'plant' && styles.toggleActive]} onPress={() => setMode('plant')}>
                 <Ionicons name="leaf-outline" size={20} color={mode === 'plant' ? Colors.white : Colors.textMuted} />
-                <Text style={[styles.toggleText, mode === 'plant' && styles.toggleTextActive]}>Grow ID</Text>
+                <Text style={[styles.toggleText, mode === 'plant' && styles.toggleTextActive]}>Plant ID</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toggleBtn, mode === 'toxins' && styles.toggleActive]} onPress={() => setMode('toxins')}>
                 <Ionicons name="warning-outline" size={20} color={mode === 'toxins' ? Colors.white : Colors.textMuted} />
@@ -124,7 +128,7 @@ export default function ScanScreen() {
               <View style={styles.processingContainer}>
                 <ActivityIndicator size="large" color={mode === 'barcode' ? Colors.primary : Colors.accentGreen} />
                 <Text style={styles.processingText}>
-                  {mode === 'barcode' ? 'Looking up product...' : mode === 'plant' ? 'Analyzing cannabis morphology...' : 'Scanning for safety hazards...'}
+                  {mode === 'barcode' ? 'Looking up product...' : mode === 'plant' ? 'Identifying plant...' : 'Scanning for hazards...'}
                 </Text>
               </View>
             ) : mode === 'barcode' ? (
@@ -135,7 +139,7 @@ export default function ScanScreen() {
                   <View style={[styles.corner, styles.bottomLeft]} />
                   <View style={[styles.corner, styles.bottomRight]} />
                 </View>
-                <Text style={styles.instruction}>Align barcode inside the frame</Text>
+                <Text style={styles.instruction}>{plantModeInstructions.barcode}</Text>
               </View>
             ) : (
               <View style={styles.overlayContent} pointerEvents="box-none">
@@ -143,7 +147,7 @@ export default function ScanScreen() {
                   <Ionicons name="scan-outline" size={150} color="rgba(255,255,255,0.3)" />
                 </View>
                 <Text style={styles.instruction} pointerEvents="none">
-                  {mode === 'plant' ? 'Point at whole plant — detects Sativa / Indica / Hybrid' : 'Capture ingredient label'}
+                  {plantModeInstructions[mode]}
                 </Text>
                 <View pointerEvents="auto" style={{ position: 'absolute', bottom: 50 }}>
                   <TouchableOpacity style={styles.captureButtonOuter} onPress={handleCaptureImage}>
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
   topRight: { top: 0, right: 0, borderTopWidth: 4, borderRightWidth: 4, borderTopRightRadius: 12 },
   bottomLeft: { bottom: 0, left: 0, borderBottomWidth: 4, borderLeftWidth: 4, borderBottomLeftRadius: 12 },
   bottomRight: { bottom: 0, right: 0, borderBottomWidth: 4, borderRightWidth: 4, borderBottomRightRadius: 12 },
-  instruction: { fontFamily: Fonts.medium, color: Colors.white, fontSize: 16, marginTop: Spacing.xl, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm, borderRadius: Radius.md, overflow: 'hidden', textAlign: 'center' },
+  instruction: { fontFamily: Fonts.medium, color: Colors.white, fontSize: 15, marginTop: Spacing.xl, backgroundColor: 'rgba(0,0,0,0.6)', paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm, borderRadius: Radius.md, overflow: 'hidden', textAlign: 'center', maxWidth: 280 },
   captureButtonOuter: { position: 'absolute', bottom: 50, width: 70, height: 70, borderRadius: 35, borderWidth: 4, borderColor: Colors.white, justifyContent: 'center', alignItems: 'center' },
   captureButtonInner: { width: 54, height: 54, borderRadius: 27, backgroundColor: Colors.white },
   processingContainer: { alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.8)', padding: Spacing.xl, borderRadius: Radius.lg },
@@ -210,5 +214,5 @@ const styles = StyleSheet.create({
   zoomText: { fontFamily: Fonts.bold, color: Colors.white, fontSize: 10, marginTop: 4 },
   scanSticker: { position: 'absolute', backgroundColor: 'rgba(0,0,0,0.85)', padding: 30, borderRadius: Radius.lg, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: Colors.accentGreen },
   stickerTitle: { fontFamily: Fonts.bold, color: Colors.white, marginTop: 10, fontSize: 18, letterSpacing: 2 },
-  stickerCode: { fontFamily: Fonts.handwritten, color: Colors.accentGreen, fontSize: 24, marginTop: 6 },
+  stickerCode: { fontFamily: Fonts.semiBold, color: Colors.accentGreen, fontSize: 20, marginTop: 6 },
 });
