@@ -116,7 +116,7 @@ export default function ScanScreen() {
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toggleBtn, mode === 'plant' && styles.toggleActive]} onPress={() => setMode('plant')}>
                 <Ionicons name="leaf-outline" size={20} color={mode === 'plant' ? Colors.white : Colors.textMuted} />
-                <Text style={[styles.toggleText, mode === 'plant' && styles.toggleTextActive]}>Plant ID</Text>
+                <Text style={[styles.toggleText, mode === 'plant' && styles.toggleTextActive]}>Scan</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.toggleBtn, mode === 'toxins' && styles.toggleActive]} onPress={() => setMode('toxins')}>
                 <Ionicons name="warning-outline" size={20} color={mode === 'toxins' ? Colors.white : Colors.textMuted} />
