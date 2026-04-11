@@ -16,7 +16,6 @@ type RootStackParamList = {
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Scan'>;
-
 type ScanMode = 'barcode' | 'plant' | 'toxins';
 
 export default function ScanScreen() {
@@ -28,23 +27,15 @@ export default function ScanScreen() {
   const navigation = useNavigation<NavigationProp>();
   const isFocused = useIsFocused();
   const cameraRef = useRef<CameraView>(null);
-
-  // Built-in Animated (no react-native-reanimated needed)
   const scanAnim = useRef(new Animated.Value(0)).current;
 
   const animatedStyle = {
     opacity: scanAnim,
-    transform: [{
-      scale: scanAnim.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1.2] })
-    }]
+    transform: [{ scale: scanAnim.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1.2] }) }],
   };
 
   if (!permission) {
-    return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color={Colors.primary} />
-      </View>
-    );
+    return <View style={styles.centerContainer}><ActivityIndicator size="large" color={Colors.primary} /></View>;
   }
 
   if (!permission.granted) {
@@ -64,21 +55,16 @@ export default function ScanScreen() {
     if (processing || mode !== 'barcode') return;
     setScannedCode(data);
     setProcessing(true);
-
     Animated.sequence([
       Animated.timing(scanAnim, { toValue: 1, duration: 400, useNativeDriver: true }),
       Animated.delay(800),
       Animated.timing(scanAnim, { toValue: 0, duration: 300, useNativeDriver: true }),
     ]).start();
-
     let photoBase64: string | undefined;
     try {
       const photo = await cameraRef.current?.takePictureAsync({ quality: 0.3, base64: true });
       photoBase64 = photo?.base64;
-    } catch (e) {
-      console.warn('Snapshot failed', e);
-    }
-
+    } catch (e) { console.warn('Snapshot failed', e); }
     setTimeout(() => {
       navigation.navigate('ProductDetail', { barcode: data, imageUri: photoBase64 } as any);
       setProcessing(false);
@@ -92,7 +78,6 @@ export default function ScanScreen() {
     try {
       const photo = await cameraRef.current.takePictureAsync({ quality: 0.5, base64: true });
       if (!photo || !photo.base64) throw new Error('Failed to take photo');
-
       if (mode === 'plant') {
         const plant = await identifyPlant(photo.base64);
         navigation.navigate('PlantDetail', { plantId: plant.id });
@@ -100,11 +85,8 @@ export default function ScanScreen() {
         const report = await analyzeToxins(photo.base64);
         navigation.navigate('ToxinDetail', { reportId: report.id });
       }
-    } catch (e) {
-      console.warn('Image Analysis failed', e);
-    } finally {
-      setProcessing(false);
-    }
+    } catch (e) { console.warn('Image Analysis failed', e); }
+    finally { setProcessing(false); }
   };
 
   return (
@@ -115,49 +97,29 @@ export default function ScanScreen() {
             ref={cameraRef}
             style={StyleSheet.absoluteFillObject}
             zoom={zoom}
-            onBarcodeScanned={mode === 'barcode' && !processing ? (event) => {
-              if (!processing) handleBarcodeScanned(event.data);
-            } : undefined}
-            barcodeScannerSettings={{
-              barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'qr', 'code128', 'code39'],
-            }}
+            onBarcodeScanned={mode === 'barcode' && !processing ? (event) => { if (!processing) handleBarcodeScanned(event.data); } : undefined}
+            barcodeScannerSettings={{ barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'qr', 'code128', 'code39'] }}
           />
           <View style={styles.overlay} pointerEvents="box-none">
-
-            {/* Top Toggle Bar */}
             <View style={styles.toggleContainer} pointerEvents="auto">
-              <TouchableOpacity
-                style={[styles.toggleBtn, mode === 'barcode' && styles.toggleActive]}
-                onPress={() => setMode('barcode')}
-              >
+              <TouchableOpacity style={[styles.toggleBtn, mode === 'barcode' && styles.toggleActive]} onPress={() => setMode('barcode')}>
                 <Ionicons name="barcode-outline" size={20} color={mode === 'barcode' ? Colors.white : Colors.textMuted} />
                 <Text style={[styles.toggleText, mode === 'barcode' && styles.toggleTextActive]}>Barcode</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.toggleBtn, mode === 'plant' && styles.toggleActive]}
-                onPress={() => setMode('plant')}
-              >
+              <TouchableOpacity style={[styles.toggleBtn, mode === 'plant' && styles.toggleActive]} onPress={() => setMode('plant')}>
                 <Ionicons name="leaf-outline" size={20} color={mode === 'plant' ? Colors.white : Colors.textMuted} />
                 <Text style={[styles.toggleText, mode === 'plant' && styles.toggleTextActive]}>Grow ID</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.toggleBtn, mode === 'toxins' && styles.toggleActive]}
-                onPress={() => setMode('toxins')}
-              >
+              <TouchableOpacity style={[styles.toggleBtn, mode === 'toxins' && styles.toggleActive]} onPress={() => setMode('toxins')}>
                 <Ionicons name="warning-outline" size={20} color={mode === 'toxins' ? Colors.white : Colors.textMuted} />
                 <Text style={[styles.toggleText, mode === 'toxins' && styles.toggleTextActive]}>Toxins</Text>
               </TouchableOpacity>
             </View>
-
             {processing ? (
               <View style={styles.processingContainer}>
                 <ActivityIndicator size="large" color={mode === 'barcode' ? Colors.primary : Colors.accentGreen} />
                 <Text style={styles.processingText}>
-                  {mode === 'barcode'
-                    ? 'Looking up product...'
-                    : mode === 'plant'
-                    ? 'Analyzing cannabis morphology...'
-                    : 'Scanning for safety hazards...'}
+                  {mode === 'barcode' ? 'Looking up product...' : mode === 'plant' ? 'Analyzing cannabis morphology...' : 'Scanning for safety hazards...'}
                 </Text>
               </View>
             ) : mode === 'barcode' ? (
@@ -176,9 +138,7 @@ export default function ScanScreen() {
                   <Ionicons name="scan-outline" size={150} color="rgba(255,255,255,0.3)" />
                 </View>
                 <Text style={styles.instruction} pointerEvents="none">
-                  {mode === 'plant'
-                    ? 'Point at the whole plant — detects Sativa / Indica / Hybrid'
-                    : 'Capture text on an ingredient label'}
+                  {mode === 'plant' ? 'Point at whole plant — detects Sativa / Indica / Hybrid' : 'Capture text on an ingredient label'}
                 </Text>
                 <View pointerEvents="auto" style={{ position: 'absolute', bottom: 50 }}>
                   <TouchableOpacity style={styles.captureButtonOuter} onPress={handleCaptureImage}>
@@ -187,8 +147,6 @@ export default function ScanScreen() {
                 </View>
               </View>
             )}
-
-            {/* UPC Scan Animation Sticker */}
             {scannedCode && (
               <Animated.View style={[styles.scanSticker, animatedStyle]}>
                 <Ionicons name="checkmark-circle" size={40} color={Colors.white} />
@@ -196,8 +154,6 @@ export default function ScanScreen() {
                 <Text style={styles.stickerCode}>{scannedCode}</Text>
               </Animated.View>
             )}
-
-            {/* Zoom Controls */}
             <View style={styles.zoomContainer}>
               <TouchableOpacity onPress={() => setZoom(Math.min(zoom + 0.1, 1))} style={styles.zoomBtn}>
                 <Ionicons name="add" size={24} color={Colors.white} />
@@ -208,7 +164,6 @@ export default function ScanScreen() {
               </TouchableOpacity>
               <Text style={styles.zoomText}>{Math.round(zoom * 100)}%</Text>
             </View>
-
           </View>
         </View>
       )}
@@ -225,17 +180,7 @@ const styles = StyleSheet.create({
   grantButton: { backgroundColor: Colors.highlightBrown, color: Colors.white, fontFamily: Fonts.medium, paddingHorizontal: Spacing.xl, paddingVertical: Spacing.md, borderRadius: Radius.full, overflow: 'hidden' },
   overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' },
   overlayContent: { flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center' },
-  toggleContainer: {
-    position: 'absolute',
-    top: 50,
-    flexDirection: 'row',
-    backgroundColor: 'rgba(20,20,40,0.9)',
-    borderRadius: Radius.full,
-    padding: 6,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
-    zIndex: 100,
-  },
+  toggleContainer: { position: 'absolute', top: 50, flexDirection: 'row', backgroundColor: 'rgba(20,20,40,0.9)', borderRadius: Radius.full, padding: 6, borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', zIndex: 100 },
   toggleBtn: { flexDirection: 'row', alignItems: 'center', paddingVertical: 8, paddingHorizontal: 12, borderRadius: Radius.full },
   toggleActive: { backgroundColor: Colors.surface },
   toggleText: { fontFamily: Fonts.medium, color: Colors.textMuted, marginLeft: 6, fontSize: 13 },
