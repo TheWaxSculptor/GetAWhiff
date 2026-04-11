@@ -1,3 +1,4 @@
+import compactStrains from '../data/strainData.json';
 export type StrainType = 'Indica' | 'Sativa' | 'Hybrid';
 export type Difficulty = 'Easy' | 'Moderate' | 'Hard';
 export type StrainEra = 'Landrace' | 'Legacy' | 'Modern';
@@ -963,9 +964,35 @@ const strainDatabase: StrainInfo[] = [
   {id:"godfather_og",name:"Godfather OG",type:'Indica',era:'Modern',thcContent:'28%-34%',difficulty:'Hard',growthTime:'8-9 wks',expectedYield:'Medium (400g/m²)',growingTips:["One of the highest-THC strains on record \u2014 approach with extreme caution regardless of tolerance."],medicalUses:["Insomnia", "Pain", "Stress", "Anxiety", "PTSD"],effects:["Sedated", "Relaxed", "Euphoric", "Sleepy", "Heavy"],imageUrl:'https://images.unsplash.com/photo-1596726581451-b8449c289ad6?auto=format&fit=crop&q=80&w=400',description:"The self-proclaimed 'Don of all OGs' and consistently one of the highest-testing strains in licensed California dispensaries. Godfather OG has tested above 34% THC \u2014 among the highest ever recorded \u2014 delivering a knockout body effect.",lineage:{parents:["XXX OG", "Alpha OG"],origin:"Los Angeles, California, USA"},funFact:"Godfather OG holds the record for highest THC percentage tested in the High Times Cannabis Cup (2013) at over 34%, making it one of the most potent strains ever officially documented."},
 ];
 
+
+// ── Expand compact JSON strains into full StrainInfo objects ─────────────────
+// Format: [id, name, type, era, thc, diff, parents, origin, desc, effects, medical, fact]
+function expandCompactStrain(s: any[]): StrainInfo {
+  return {
+    id: s[0],
+    name: s[1],
+    type: s[2] as StrainType,
+    era: s[3] as StrainEra,
+    thcContent: s[4],
+    difficulty: s[5] as Difficulty,
+    growthTime: '8-10 weeks',
+    expectedYield: 'Medium (400g/m²)',
+    growingTips: ['Consult regional cultivation guides for optimal results.'],
+    lineage: { parents: s[6], origin: s[7] },
+    description: s[8],
+    effects: s[9],
+    medicalUses: s[10],
+    imageUrl: 'https://images.unsplash.com/photo-1596726581451-b8449c289ad6?auto=format&fit=crop&q=80&w=400',
+    funFact: s[11],
+  };
+}
+
+const expandedStrains: StrainInfo[] = (compactStrains as any[]).map(expandCompactStrain);
+const fullDatabase: StrainInfo[] = [...strainDatabase, ...expandedStrains];
+
 export async function fetchStrains(query?: string, type?: StrainType, difficulty?: Difficulty, era?: StrainEra): Promise<StrainInfo[]> {
   await new Promise(resolve => setTimeout(resolve, 300));
-  let results = [...strainDatabase];
+  let results = [...fullDatabase];
 
   if (query) {
     const q = query.toLowerCase();
@@ -987,7 +1014,7 @@ export async function fetchStrains(query?: string, type?: StrainType, difficulty
 }
 
 export async function getStrainById(id: string): Promise<StrainInfo | null> {
-  return strainDatabase.find(s => s.id === id) || null;
+  return fullDatabase.find(s => s.id === id) || null;
 }
 
 export async function getStrainEras(): Promise<StrainEra[]> {
